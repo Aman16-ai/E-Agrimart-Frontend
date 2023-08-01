@@ -13,7 +13,7 @@ export default function Navbar() {
             <h3 className="text-2xl font-semibold text-white ml-[3%]">Bids</h3>
             <h3 className="text-2xl font-semibold text-white ml-[3%]">Orders</h3>
         </div>
-        <div class="w-[40%] h-[80px] mr-[130px]  flex items-center">
+        <div className="w-[40%] h-[80px] mr-[130px]  flex items-center">
             <h3 className="text-2xl font-semibold text-white mr-7"><Link href={"/sellerRegistration"}>Become a seller</Link></h3>
             <button className="w-[120px] h-[50px] text-white text-xl rounded-xl ml-[2%] font-semibold bg-btn-primary">Login</button>
             <button className="w-[120px] h-[50px] text-white text-xl rounded-xl ml-3  font-semibold bg-btn-primary">Register</button>
