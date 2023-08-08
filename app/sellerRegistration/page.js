@@ -1,5 +1,6 @@
 'use client'
 import StepIndicator from "@/Components/StepIndicator";
+import AddressDetails from "@/Components/multiStepFrom/AddressDetails";
 import PersonalDetails from "@/Components/multiStepFrom/PersonalDetails";
 import { Button } from "@mui/material";
 import React, { useEffect } from "react";
@@ -25,10 +26,10 @@ export default function SellerRegistration() {
                 <StepIndicator stepNo={3} isToggle={step === 3 || toggledSteps[3]}/>
             </div>
             <div className="flex flex-col justify-center mt-7">
-              <PersonalDetails/>
+              {step === 1 ? <PersonalDetails/> : step === 2? <AddressDetails/> :null}
             </div>
             <div className="w-[77%] h-[auto] justify-between flex mb-7">
-                <Button variant="text" className={`w-[120px] h-[50px] font-semibold ${step === 1 ? 'hidden' :"relative"}`}>Back</Button>
+                <Button variant="text" onClick={e => setStep(prev => prev - 1)} className={`w-[120px] h-[50px] font-semibold ${step === 1 ? 'hidden' :"relative"}`}>Back</Button>
                 <Button variant="contained" onClick={e => setStep(prev => prev+1)} className="bg-btn-secondary w-[120px] h-[50px]">Next</Button>
             </div>
         </div>
