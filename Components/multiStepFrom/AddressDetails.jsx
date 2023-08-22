@@ -58,7 +58,7 @@ export default function AddressDetails() {
             </Select>
             </FormControl>
             <Stack direction={'row'} style={{marginTop:"0.75rem"}}>
-                <TextField variant='outlined' label='Pincode'/>
+                <TextField variant='outlined' inputProps={{type:'number'}} label='Pincode'/>
                 <TextField variant='outlined' style={{marginLeft:"20px"}} label='Landmark'/>
             </Stack>
         </div>

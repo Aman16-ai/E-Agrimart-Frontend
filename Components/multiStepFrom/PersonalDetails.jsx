@@ -11,7 +11,7 @@ export default function PersonalDetails() {
             </Stack>
             <TextField variant='outlined' style={{marginTop:"0.75rem"}} placeholder='Username'/>
             <TextField variant='outlined' style={{marginTop:"0.75rem"}} placeholder='Email'/>
-            <TextField variant='outlined' style={{marginTop:"0.75rem"}} placeholder='Contact No.'/>
+            <TextField variant='outlined' inputProps={{type:'number'}} style={{marginTop:"0.75rem"}} placeholder='Contact No.'/>
             <TextField variant='outlined' style={{marginTop:"0.75rem"}} placeholder='Password'/>
         </div>
     </>
