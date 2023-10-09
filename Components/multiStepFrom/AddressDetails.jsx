@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { FormControl,InputLabel,MenuItem,Select,Stack,TextField } from '@mui/material'
 import { statesAndcities } from '@/utils/addressUtils'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectFormAddressState, updateAddress } from '@/store/slices/multistepFormSlice'
 export default function AddressDetails() {
-    const [selectedState,setSelectedState] = useState(null)
     const [cities,setCities] = useState([])
-    const handleStateChange = (e) => {
-        console.log(e.target.value)
-        setSelectedState(e.target.value)
-    }
-    const handleCityChange = (e) => {
 
+    const addressFormData = useSelector(selectFormAddressState)
+    const dispatch = useDispatch()
+    const onHandleChange = (e) => {
+        dispatch(updateAddress({name:e.target.name,value:e.target.value}))
     }
     const getStates = () => {
         const states = Object.keys(statesAndcities)
@@ -17,10 +17,10 @@ export default function AddressDetails() {
     }
 
     useEffect(()=> {
-        if(selectedState !== null) {
-            setCities(statesAndcities[selectedState])
+        if(addressFormData.state !== null) {
+            setCities(statesAndcities[addressFormData.state])
         }
-    },[selectedState])
+    },[addressFormData.state])
 
   return (
     <>
@@ -31,12 +31,13 @@ export default function AddressDetails() {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="State"
-                value={selectedState}
-                onChange={handleStateChange}
+                name='state'
+                value={addressFormData.state}
+                onChange={onHandleChange}
             >
                 {
-                    getStates().map(state => {
-                        return <MenuItem value={state}>{state}</MenuItem>
+                    getStates().map((state,i) => {
+                        return <MenuItem key={i} value={state}>{state}</MenuItem>
                     })
                 }
             </Select>
@@ -48,18 +49,20 @@ export default function AddressDetails() {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="City"
-                onChange={handleCityChange}
+                name='city'
+                value={addressFormData.city}
+                onChange={onHandleChange}
             >
                 {
-                    cities.map(city => {
-                        return <MenuItem value={city}>{city}</MenuItem>
+                    cities?.map((city,i) => {
+                        return <MenuItem key={i} value={city}>{city}</MenuItem>
                     })
                 }
             </Select>
             </FormControl>
             <Stack direction={'row'} style={{marginTop:"0.75rem"}}>
-                <TextField variant='outlined' inputProps={{type:'number'}} label='Pincode'/>
-                <TextField variant='outlined' style={{marginLeft:"20px"}} label='Landmark'/>
+                <TextField variant='outlined' name='pincode' onChange={onHandleChange} inputProps={{type:'number'}} label='Pincode'/>
+                <TextField variant='outlined' name='landmark' onChange={onHandleChange} style={{marginLeft:"20px"}} label='Landmark'/>
             </Stack>
         </div>
     </>

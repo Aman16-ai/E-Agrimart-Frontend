@@ -11,6 +11,8 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { getAllCrops } from "@/service/crops";
 import { TextField } from "@mui/material";
+import { updateCrops, updateSoilK, updateSoilMoisture, updateSoilN, updateSoilP, updateSoilPh } from "@/store/slices/multistepFormSlice";
+import { useDispatch } from "react-redux";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -50,6 +52,7 @@ export default function CropsAndSoilDetails() {
   const [personName, setPersonName] = useState([]);
   const [crops, setCrops] = useState([]);
   const [crop, setCrop] = useState([]);
+  const dispatch = useDispatch()
   const getCrops = async () => {
     try {
       const data = await getAllCrops();
@@ -66,6 +69,7 @@ export default function CropsAndSoilDetails() {
       target: { value },
     } = event;
     setCrop(typeof value === "string" ? value.split(",") : value);
+    dispatch(updateCrops(value))
   };
 
   return (
@@ -77,6 +81,7 @@ export default function CropsAndSoilDetails() {
           id="demo-multiple-chip"
           multiple
           value={crop}
+          name="crops"
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
@@ -99,11 +104,11 @@ export default function CropsAndSoilDetails() {
           ))}
         </Select>
       </FormControl>
-      <TextField inputProps={{type:'number'}} placeholder="Soil Nitrogen"/>
-      <TextField inputProps={{type:'number'}} placeholder="Soil Phosphorus"/>
-      <TextField inputProps={{type:'number'}} placeholder="Soil Postassium"/>
-      <TextField inputProps={{type:'number'}} placeholder="Soil PH"/>
-      <TextField inputProps={{type:'number'}} placeholder="Soil Moisture"/>
+      <TextField name="soil_N" onChange={e => dispatch(updateSoilN(e.target.value))} inputProps={{type:'number'}} placeholder="Soil Nitrogen"/>
+      <TextField name="soil_P" onChange={e => dispatch(updateSoilP(e.target.value))} inputProps={{type:'number'}} placeholder="Soil Phosphorus"/>
+      <TextField name="soil_K" onChange={e => dispatch(updateSoilK(e.target.value))} inputProps={{type:'number'}} placeholder="Soil Postassium"/>
+      <TextField name="soil_Ph" onChange={e => dispatch(updateSoilPh(e.target.value))} inputProps={{type:'number'}} placeholder="Soil PH"/>
+      <TextField name="soil_moisture" onChange={e => dispatch(updateSoilMoisture(e.target.value))} inputProps={{type:'number'}} placeholder="Soil Moisture"/>
     </div>
     </>
   );
