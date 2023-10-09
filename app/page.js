@@ -1,10 +1,12 @@
 import heroimg from "../public/assets/hero3.jpg";
 import Image from "next/image";
 import Navbar from "@/Components/Navbar";
+import ProductCard from "@/Components/ProductCard";
+import HorizontalProductList from "@/Components/HorizontalProductList";
 export default function Home() {
   return (
     <>
-      <div className="w-[73%] h-[80px] absolute z-20 mt-[30%] ml-[13%] rounded-md bg-[#FCBF49] flex items-center">
+      <div className="w-[74%] h-[80px] absolute z-20 mt-[30%] ml-[13%] rounded-md bg-[#FCBF49] flex items-center">
         <input className="w-[19rem] h-[4rem] ml-2 p-2 focus:outline-none text-black placeholder:text-black font-semibold rounded-md" placeholder="Which crop are you looking?"/>
 
         <input className="w-[19rem] h-[4rem] ml-2 p-2 focus:outline-none text-black placeholder:text-black font-semibold rounded-md" placeholder="Choose Season"/>
@@ -23,6 +25,11 @@ export default function Home() {
             </h1>
           </div>
         </div>
+      </div>
+
+      <div className="w-full h-auto mt-20">
+        <h4 className="text-[1.8rem] font-bold mt-5 ml-5">Top Deals</h4>
+        <HorizontalProductList/>
       </div>
     </>
   );
