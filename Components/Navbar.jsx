@@ -4,10 +4,12 @@ import logo from "../public/assets/E-Agrimart-logos.jpeg"
 import { useRouter,usePathname } from "next/navigation";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { selectUserState } from "@/store/slices/userSlice";
+import { selectIsAuthenticated } from "@/store/slices/UserSlice";
+// import { selectUserState } from "@/store/slices/loginSlice";
 export default function Navbar() {
     const pathname = usePathname()
-    const {token,isAuthenticated} = useSelector(selectUserState)
+    // const {token,isAuthenticated} = useSelector(selectUserState)
+    const isAuthenticated = useSelector(selectIsAuthenticated)
   return (
     <>
       <nav className={`${pathname==='/'? 'absolute': pathname==='/sellerRegistration'? 'hidden' : 'relative bg-btn-secondary'} z-10 w-screen h-[100px] flex`}>
@@ -18,7 +20,7 @@ export default function Navbar() {
         </div>
         <div className="w-[40%] h-[80px] mr-[130px]  flex items-center">
             <h3 className="text-2xl font-semibold text-white mr-7"><Link href={"/sellerRegistration"}>Become a seller</Link></h3>
-            {!localStorage.getItem("e-auth-token") ? <><button className="w-[120px] h-[50px] text-white text-xl rounded-xl ml-[2%] font-semibold bg-btn-primary">Login</button>
+            {!isAuthenticated ? <><button className="w-[120px] h-[50px] text-white text-xl rounded-xl ml-[2%] font-semibold bg-btn-primary">Login</button>
             <button className="w-[120px] h-[50px] text-white text-xl rounded-xl ml-3  font-semibold bg-btn-primary">Register</button></> : <div className="w-[250px] h-[55px] 
             border-slate-50
             text-white
