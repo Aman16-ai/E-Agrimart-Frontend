@@ -1,54 +1,42 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import { registerFarmer } from "@/service/farmer";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { getUserDetails } from "@/service/user";
 
-
-export const registerUserThunk = createAsyncThunk("register/register",async(payload,thunkApi) => {
+export const userDetailsThunk = createAsyncThunk('userDetails/userDetails',async(thunkApi) => {
     try {
-        const result = await registerFarmer(payload)
-        console.log("registeration result --------->",result)
+        const result = await getUserDetails()
         return result
     }
     catch(err) {
-        return thunkApi.rejectWithValue()
+        return thunkApi.rejectWithValue
     }
 })
-
-
 export const userSlice = createSlice({
-    name:"User",
+    name:"user",
     initialState : {
-        data : null,
-        token: null,
-        isAuthenticated : false,
-        isLoading : false
+        userData : {},
+        token : "",
+        isAuthenticated : false
     },
-
+    reducers : {
+        setIsAuthenticated : (state,action) => {
+            state.isAuthenticated = action.payload
+        }
+    },
     extraReducers : {
-        [registerUserThunk.fulfilled] : (state,action) => {
-            state.token = action.payload?.access
-            if(action.payload?.user_type === 'Farmer') {
-                const {userProfile,soil_N,soil_P,soil_K,soil_Ph,soil_moisture,crops} = action.payload
-                state.data = {userProfile,soil_N,soil_P,soil_K,soil_Ph,soil_moisture,crops}
-            }
-            else {
-                const {userProfile} = action.payload
-                state.data = userProfile
-            }
+        [userDetailsThunk.fulfilled] : (state,action) => {
+            console.log('user data thunk --------> ',action.payload)
+            state.userData = action.payload
             state.isAuthenticated = true
-            state.isLoading = false
         },
-        [registerUserThunk.pending] : (state,action) => {
-            state.isLoading = true
-        },
-        [registerUserThunk.rejected] : (state,action) => {
-            state.isLoading = false
-            state.data = null
-            state.token = null
+        [userDetailsThunk.rejected] : (state,action) => {
+            state.userData = null
             state.isAuthenticated = false
         }
     }
 })
 
-export const selectUserState = (state) => state.User
-
+export const {setIsAuthenticated} = userSlice.actions
+export const selectUserData = (state) => state.user.userData
+export const selectIsAuthenticated = (state) => state.user.isAuthenticated
 export default userSlice.reducer

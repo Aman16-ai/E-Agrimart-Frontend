@@ -4,10 +4,12 @@ import { Button } from "@mui/material";
 import PersonalDetails from "./PersonalDetails";
 import AddressDetails from "./AddressDetails";
 import CropsAndSoilDetails from "./cropsAndSoilDetails";
-import { selectFormState } from "@/store/slices/multistepFormSlice";
+import { selectFormState, selectToken } from "@/store/slices/multistepFormSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUserThunk, selectUserState } from "@/store/slices/userSlice";
+import {selectUserState } from "@/store/slices/loginSlice";
+import { registerUserThunk } from "@/store/slices/multistepFormSlice";
 import { useRouter } from "next/navigation";
+import { selectIsAuthenticated } from "@/store/slices/UserSlice";
 const stepsName = {
   1: "Personal Details",
   2: "Address",
@@ -21,7 +23,8 @@ export default function FormContainer({
 }) {
   const router = useRouter()
   const formData = useSelector(selectFormState)
-  const {token,isAuthenticated} = useSelector(selectUserState)
+  // const {token,isAuthenticated} = useSelector(selectUserState)
+  const token = useSelector(selectToken)
 
   const dispatch = useDispatch()
   const getStepComponent = () => {
@@ -45,7 +48,9 @@ export default function FormContainer({
   },[token])
   const handleFormSubmit = (e) => {
     console.log('form data ----->',formData)
-    const payload = {...formData,userProfile : {...formData.userProfile,"user_type":"Farmer"}}
+    const data = {...formData}
+    delete data['token']
+    const payload = {...data,userProfile : {...data.userProfile,"user_type":"Farmer"}}
     console.log("payloadData : " ,payload)
     dispatch(registerUserThunk(payload))
   }
