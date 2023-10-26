@@ -1,32 +1,5 @@
-'use client'
-import heroimg from "../public/assets/hero3.jpg";
-import Image from "next/image";
-import Navbar from "@/Components/Navbar";
-import ProductCard from "@/Components/ProductCard";
 import HorizontalProductList from "@/Components/HorizontalProductList";
-import { useDispatch,useSelector } from "react-redux";
-import {selectIsAuthenticated, selectUserData, setIsAuthenticated, userDetailsThunk } from "@/store/slices/UserSlice";
-import { useEffect } from "react";
 export default function Home() {
-  const dispatch = useDispatch()
-  const userData = useSelector(selectUserData)
-  const isAuthenticated = useSelector(selectIsAuthenticated)
-  
-  useEffect(() => {
-    const token = localStorage.getItem('e-auth-token')
-    if(token === undefined || token === null || token === "" || token === " " || token === 'null') {
-      dispatch(setIsAuthenticated(false))
-    }
-    else {
-      dispatch(userDetailsThunk())
-    }
-  },[])
-
-  useEffect(() => {
-    if(isAuthenticated) {
-      console.log("user data -----------> ",userData)
-    }
-  },[isAuthenticated])
   return (
     <>
       <div className="w-[74%] h-[80px] absolute z-20 mt-[30%] ml-[13%] rounded-md bg-[#FCBF49] flex items-center">
@@ -57,3 +30,12 @@ export default function Home() {
     </>
   );
 }
+
+// export async function getServerSideProps(context) {
+//   const allProducts = await getAllProducts()
+//   return {
+//     props : {
+//       allProducts
+//     }
+//   }
+// }
