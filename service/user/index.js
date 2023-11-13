@@ -21,6 +21,7 @@ export const loginUser = async (payload) => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
+    body : JSON.stringify(payload)
   });
   if (response.status !== 200) {
     throw new Error("Falid to login");

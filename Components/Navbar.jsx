@@ -35,7 +35,6 @@ export default function Navbar() {
     }
   }, [isAuthenticated]);
   return (
-    <>
       <nav
         className={`${
           pathname === "/"
@@ -47,7 +46,7 @@ export default function Navbar() {
       >
         <div className="w-[60%] h-[80px] ml-[28px] flex items-center">
           <Image width={90} className="h-[60px] rounded ml-[20%]" src={logo} />
-          <h3 className="text-2xl font-semibold text-white ml-[3%]">Bids</h3>
+          <h3 className="text-2xl font-semibold text-white ml-[3%]"><Link href={"/bids"}>Bids</Link></h3>
           <h3 className="text-2xl font-semibold text-white ml-[3%]">Orders</h3>
         </div>
         <div className="w-[40%] h-[80px] mr-[130px]  flex items-center">
@@ -65,11 +64,12 @@ export default function Navbar() {
             </>
           ) : (
             <div
-              className="w-[250px] h-[55px] 
+              className="w-[auto] h-[55px] 
             border-slate-50
             text-white
             text-xl
             border-2
+            p-2
             rounded-full font-semibold
             flex justify-center items-center
             "
@@ -80,11 +80,11 @@ export default function Navbar() {
                 width={50}
                 height={20}
               />
-              <p className="cursor-pointer">Aman Saxena</p>
+              <p className="cursor-pointer">{userData?.user.first_name + " " + userData?.user.last_name}</p>
             </div>
           )}
         </div>
       </nav>
-    </>
+
   );
 }
