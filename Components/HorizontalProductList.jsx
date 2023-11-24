@@ -17,7 +17,7 @@ export default function HorizontalProductList() {
     },[])
     return (
         <Swiper
-          spaceBetween={100}
+          spaceBetween={150}
           slidesPerView={5}
           onSlideChange={() => console.log('slide change')}
           onSwiper={(swiper) => console.log(swiper)}
