@@ -34,7 +34,7 @@ export default function LoginForm() {
         <h2 className="text-xl font-bold text-center">Login</h2>
 
         <div className="mb-4">
-          <label htmlFor="username" className="block font-semibold">
+          <label htmlFor="username" className="block font-semibold text-sm">
             Username:
           </label>
           <input
@@ -48,7 +48,7 @@ export default function LoginForm() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block font-semibold">
+          <label htmlFor="password" className="block font-semibold text-sm">
             Password:
           </label>
           <input

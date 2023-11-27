@@ -23,7 +23,7 @@ export default function HorizontalProductList() {
           onSwiper={(swiper) => console.log(swiper)}
         >
           {products.map((product,i) => {
-            return <SwiperSlide key={i}><ProductCard crop_img={product.crop_img} crop_name={product.crop_name} city={product?.farmer?.address.city} state={product?.farmer?.address.state} price={product.price} quality={product?.quality} /></SwiperSlide>
+            return <SwiperSlide key={i}><ProductCard id={product.id} crop_img={product.crop_img} crop_name={product.crop_name} city={product?.farmer?.address.city} state={product?.farmer?.address.state} price={product.price} quality={product?.quality} /></SwiperSlide>
           })}
           
         </Swiper>
