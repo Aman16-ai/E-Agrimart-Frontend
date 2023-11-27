@@ -15,8 +15,8 @@ export default function Home() {
       <div className="relative w-screen h-[500px] bg-hero-pattern bg-cover bg-center text-white justify-center align-middle">
         <div className="absolute top-0 left-0 w-full h-full bg-hero-primary flex flex-col items-center justify-center">
           <div className="w-3/4">
-            <h1 className="text-7xl font-bold">E-Agrimart</h1>
-            <h1 className="text-2xl font-bold m-[8px]">
+            <h1 className="text-6xl font-bold">E-Agrimart</h1>
+            <h1 className="text-xl font-bold m-[8px]">
               Right place of your choice
             </h1>
           </div>
@@ -24,7 +24,7 @@ export default function Home() {
       </div>
 
       <div className="w-full h-auto mt-20">
-        <h4 className="text-[1.8rem] font-bold mt-5 ml-5">Top Deals</h4>
+        <h4 className="text-[1.5rem] font-bold mt-5 ml-5">Top Deals</h4>
         <HorizontalProductList/>
       </div>
     </>
