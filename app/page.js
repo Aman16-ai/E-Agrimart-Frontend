@@ -1,3 +1,4 @@
+import BidModal from "@/Components/Bid/Add&ExploreDashBoard/BidModal";
 import HorizontalProductList from "@/Components/HorizontalProductList";
 export default function Home() {
   return (

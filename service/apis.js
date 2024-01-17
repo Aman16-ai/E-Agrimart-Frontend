@@ -6,3 +6,7 @@ export const FARMER_REGISTERATION_API = BASE_URL + "/api/account/farmer/register
 export const GET_ALL_PRODUCTS_API = BASE_URL + "/api/farmer/product/"
 export const GET_USER_DETAILS = BASE_URL + '/api/account/getUser/'
 export const LOGIN_USER = BASE_URL + "/api/account/loginUser/"
+
+
+//Bid api
+export const BID_API = BASE_URL + "/api/bid/"

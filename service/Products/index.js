@@ -10,7 +10,7 @@ export const getAllProducts = async(query) => {
 }
 
 export const getProductById = async(id) => {
-    const response = await fetch(GET_ALL_PRODUCTS_API+id)
+    const response = await fetch(GET_ALL_PRODUCTS_API+id,{cache:"no-store"})
     const data = await response.json()
     return data?.Response
 }

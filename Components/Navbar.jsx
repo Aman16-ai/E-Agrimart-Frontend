@@ -8,6 +8,7 @@ import { selectIsAuthenticated,selectUserData } from "@/store/slices/UserSlice";
 import { setIsAuthenticated } from "@/store/slices/UserSlice";
 import { useEffect, useState } from "react";
 import { userDetailsThunk } from "@/store/slices/UserSlice";
+import { capitalize } from "@/utils/stringUtils";
 export default function Navbar() {
   const pathname = usePathname();
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -78,7 +79,7 @@ export default function Navbar() {
                 width={50}
                 height={20}
               />
-              <p className="cursor-pointer text-white">{userData?.user.first_name + " " + userData?.user.last_name}</p>
+              <p className="cursor-pointer text-white">{capitalize(userData?.user.first_name) + " " + capitalize(userData?.user.last_name)}</p>
               <div className={`w-auto bg-white p-1 mt-36 ${ishovered ? "absolute" : 'hidden'} rounded-md`}>
                 <p className="text-black w-[180px]  mt-1">Profile</p>
                 <button className="w-[180px] h-9 bg-blue-500 rounded-md mt-3">Logout</button>
