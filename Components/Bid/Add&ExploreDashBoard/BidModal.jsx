@@ -11,6 +11,7 @@ import StatusCard from './StatusCard';
 import { Card,CardContent,CardHeader, CardDescription, CardTitle } from '@/Components/ui/card';
 import { Bids } from './Bids';
 import Overview from './Overview';
+import { getAllBidsThunk, getbidDashBoardThunk, resetState, selectBidsState, selectDashBoardDataState } from '@/store/slices/BidDashBoardSlice';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -26,11 +27,34 @@ const style = {
 
 export default function BidModal({crop_id, farmer_id, createBid}) {
     const dispatch = useDispatch()
-
+    const dashBoardData = useSelector(selectDashBoardDataState)
+    const allBids = useSelector(selectBidsState)
     const open = useSelector(selectModalOpen)
 //   const handleOpen = () => setOpen(true);
   const handleClose = () => dispatch(setOpen(false));
 
+  React.useEffect(() => {
+    return () => {
+      dispatch(setOpen(false))
+    }
+  },[])
+  React.useEffect(() => {
+    if(open) {
+      console.log('running this',crop_id)
+      const query_dashboard = "?product_id="+crop_id
+      dispatch(getbidDashBoardThunk(query_dashboard))
+      const query_bids = "?crop="+crop_id
+      dispatch(getAllBidsThunk(query_bids))
+    }
+
+    return () => {
+      dispatch(resetState())
+    }
+  },[crop_id,open])
+  React.useEffect(() => {
+    console.log('dash board data ---> ',dashBoardData)
+    console.log('all bids ',allBids)
+  },[dashBoardData])
   return (
     <div>
       <Modal
@@ -45,10 +69,10 @@ export default function BidModal({crop_id, farmer_id, createBid}) {
           </Typography>
           <div className='w-full h-full mt-2'>
             <div className='w-full h-[25%] grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-              <StatusCard title={"Total Bids"}/>
-              <StatusCard title={"Base Price"}/>
-              <StatusCard title={"Average Bid Price"}/>
-              <StatusCard title={"Highest Bid Price"}/>
+              <StatusCard title={"Total Bids"} value={dashBoardData.total_bids}/>
+              <StatusCard title={"Base Price"} value={dashBoardData.base_bid_price}/>
+              <StatusCard title={"Average Bid Price"} value={dashBoardData.average_bid_price}/>
+              <StatusCard title={"Highest Bid Price"} value={dashBoardData.highest_bid_price}/>
               
             </div>
             <div className="mt-2 h-[70%] grid gap-4 md:grid-cols-2 lg:grid-cols-7">
@@ -68,7 +92,7 @@ export default function BidModal({crop_id, farmer_id, createBid}) {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Bids/>
+                    <Bids bids={allBids}/>
                   </CardContent>
                 </Card>
               </div>

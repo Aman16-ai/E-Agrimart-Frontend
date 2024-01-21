@@ -7,8 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { indianFormattedString } from "@/utils/stringUtils";
 
-export default function StatusCard({title}) {
+export default function StatusCard({title,value}) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -27,7 +28,7 @@ export default function StatusCard({title}) {
         </svg>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">$45,231.89</div>
+        <div className="text-2xl font-bold">₹{indianFormattedString(value)}</div>
         {/* <p className="text-xs text-muted-foreground">+20.1% from last month</p> */}
       </CardContent>
     </Card>

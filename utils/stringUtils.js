@@ -5,3 +5,14 @@ export function capitalize(str) {
     return str
 }
 
+export function indianFormattedString(str) {
+    if(str !== undefined) {
+        return str.toLocaleString('en-IN')
+    }
+}
+
+export function getFallBackString(str) {
+    if(str !== undefined) {
+        return str[0]?.toUpperCase()
+    }
+}
