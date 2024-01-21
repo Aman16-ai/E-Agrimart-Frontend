@@ -9,4 +9,5 @@ export const LOGIN_USER = BASE_URL + "/api/account/loginUser/"
 
 
 //Bid api
-export const BID_API = BASE_URL + "/api/bid/"
+export const BID_API = BASE_URL + "/api/bid"
+export const BID_DASHBORAD_API = BID_API + "/get_dashboad_data"
