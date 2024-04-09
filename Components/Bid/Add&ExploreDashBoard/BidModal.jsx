@@ -11,7 +11,12 @@ import StatusCard from './StatusCard';
 import { Card,CardContent,CardHeader, CardDescription, CardTitle } from '@/Components/ui/card';
 import { Bids } from './Bids';
 import Overview from './Overview';
-import { getAllBidsThunk, getbidDashBoardThunk, resetState, selectBidsState, selectDashBoardDataState } from '@/store/slices/BidDashBoardSlice';
+import { addBids, getAllBidsThunk, getbidDashBoardThunk, resetState, selectBidsState, selectDashBoardDataState } from '@/store/slices/BidDashBoardSlice';
+import io from "socket.io-client"
+import { disconnectSocket, initSocket } from '@/store/slices/BidSocketSlice';
+import { addBidService } from '@/service/Bid';
+let socket = null
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -34,8 +39,16 @@ export default function BidModal({crop_id, farmer_id, createBid}) {
   const handleClose = () => dispatch(setOpen(false));
 
   React.useEffect(() => {
+    socket = io("http://localhost:4000")
+    dispatch(initSocket(socket))
+    socket.on('received_bids',(data) => {
+      console.log('type of recieved data',typeof JSON.parse(data))
+      console.log('received socket ',JSON.parse(data))
+      dispatch(addBids(JSON.parse(data)))
+    })
     return () => {
       dispatch(setOpen(false))
+      socket.emit('leave')
     }
   },[])
   React.useEffect(() => {
@@ -45,10 +58,20 @@ export default function BidModal({crop_id, farmer_id, createBid}) {
       dispatch(getbidDashBoardThunk(query_dashboard))
       const query_bids = "?crop="+crop_id
       dispatch(getAllBidsThunk(query_bids))
+      socket.emit('join_room',({'product_id':crop_id}))
+      console.log('running this', socket)
+
+      // socket.on('received_bids',(data) => {
+      //   console.log('type of recieved data',typeof JSON.parse(data))
+      //   console.log('received socket ',JSON.parse(data))
+      //   dispatch(addBids(JSON.parse(data)))
+      // })
+
     }
 
     return () => {
       dispatch(resetState())
+      // dispatch(disconnectSocket())
     }
   },[crop_id,open])
   React.useEffect(() => {
@@ -80,8 +103,8 @@ export default function BidModal({crop_id, farmer_id, createBid}) {
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
-                  <CardContent className="pl-2 h-[85%]">
-                    <Overview />
+                  <CardContent className="h-[85%]">
+                    <Overview crop_id={crop_id} farmer_id={farmer_id} customer_bid_status={dashBoardData.customer}/>
                   </CardContent>
                 </Card>
                 <Card className="col-span-3 overflow-y-scroll">
