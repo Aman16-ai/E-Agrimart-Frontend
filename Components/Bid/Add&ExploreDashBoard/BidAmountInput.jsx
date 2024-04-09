@@ -4,17 +4,21 @@ import { useRouter } from "next/navigation";
 import { addBidService } from "@/service/Bid";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useSelector } from "react-redux";
+import { selectSocketState } from "@/store/slices/BidSocketSlice";
 export default function BidAmountInput({ crop_id, farmer_id, createBid }) {
   const router = useRouter();
   const [bidAmount, setBidAmount] = useState(0);
+  const socket = useSelector(selectSocketState)
   const handleSumbit = async() => {
     // router.refresh()
     const payload = {
       farmer: farmer_id,
       crop: crop_id,
       bid_price: bidAmount,
+      authtoken : localStorage.getItem('e-auth-token')
     };
-
+    socket.emit('createBid',(payload))
     try {
       console.log(payload)
       // const result = await addBidService(payload)

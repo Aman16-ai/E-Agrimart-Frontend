@@ -52,9 +52,30 @@ export const BidDashBoardSlice = createSlice({
           is_current_customer_added_bid: false,
         },
       };
-      state.bids = []
-      state.isLoadingBids = false
-      state.isLoadingDashBoard = false
+      state.bids = [];
+      state.isLoadingBids = false;
+      state.isLoadingDashBoard = false;
+    },
+    addBids: (state, action) => {
+
+      // if the current bid is highest then we are placing it on the top of list.
+      if (
+        state.bids.length !== 0 &&
+        state.bids[0].bid_price < action.payload.bid_price
+        ) {
+          state.bids.unshift(action.payload)
+          state.dashboard.highest_bid_price = action.payload.bid_price
+      } else {
+
+        // if the the current is the first bid then we update the highest bid price with current bid price.
+        if(state.bids.length === 0) {
+          state.dashboard.highest_bid_price = action.payload.bid_price
+        }
+        state.bids = [...state.bids, action.payload];
+      }
+
+      // may lead to race condition 
+      state.dashboard.total_bids += 1;
     },
   },
   extraReducers: {
@@ -71,12 +92,23 @@ export const BidDashBoardSlice = createSlice({
     [getbidDashBoardThunk.fulfilled]: (state, action) => {
       state.isLoadingDashBoard = false;
       console.log("dash board thunk reducer ", action.payload);
-      state.dashboard = action.payload;
+      if(action.payload?.customer?.is_current_customer_added_bid === false) {
+        state.dashboard = action.payload;
+      }
+      else {
+        const response = {...action.payload,[action.payload?.customer] : {
+          ...action.payload?.customer,
+          "bid_amount" : 0,
+          "profit" : 0,
+        }}
+        console.log(response)
+        state.dashboard = response
+      }
     },
   },
 });
 
-export const { resetState } = BidDashBoardSlice.actions;
+export const { resetState, addBids } = BidDashBoardSlice.actions;
 export const selectDashBoardDataState = (state) => state.BidDashBoard.dashboard;
 export const selectBidsState = (state) => state.BidDashBoard.bids;
 export default BidDashBoardSlice.reducer;
