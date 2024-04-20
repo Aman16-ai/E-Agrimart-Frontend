@@ -55,7 +55,7 @@ export default function FormContainer({
     dispatch(registerUserThunk(payload))
   }
   return (
-    <>
+  
       <div className="w-2/5 h-[auto] shadow-2xl rounded-2xl bg-white flex flex-col items-center">
         <h4 className="text-2xl font-semibold mt-2">{stepsName[step]}</h4>
         <div className="w-full h-[50px] mt-5 flex justify-evenly">
@@ -66,7 +66,7 @@ export default function FormContainer({
         <div className="flex flex-col justify-center mt-7">
           {getStepComponent()}
         </div>
-        <div className="w-[77%] h-[auto] justify-between flex mb-7">
+        <div className="w-[77%] h-[auto] mt-7 justify-between flex mb-7">
           <Button
             variant="text"
             onClick={(e) => {
@@ -96,6 +96,6 @@ export default function FormContainer({
           </Button> }
         </div>
       </div>
-    </>
+
   );
 }

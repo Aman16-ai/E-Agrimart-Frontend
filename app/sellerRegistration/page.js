@@ -20,10 +20,8 @@ export default function SellerRegistration() {
         // }
     },[step])
   return (
-    <>
       <div className="w-full h-[100vh] flex justify-center items-center bg-regiration-img bg-cover bg-center">
         <FormContainer step={step} setStep={setStep} toggledSteps={toggledSteps} setToggledSteps={setToggledSteps} />
       </div>
-    </>
   );
 }

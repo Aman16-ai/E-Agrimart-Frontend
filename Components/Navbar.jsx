@@ -40,7 +40,7 @@ export default function Navbar() {
     router.push("/")
   }
   return (
-      <nav
+      <>{!pathname.startsWith('/farmerDashboard') ?<nav
         className={`${
           pathname === "/"
             ? "absolute"
@@ -51,7 +51,7 @@ export default function Navbar() {
       >
         <div className={`w-[60%] h-[80px] ml-[28px] flex items-center`}>
           <Image width={90} className="h-[60px] rounded ml-[20%]" src={logo} onClick={handleClick} />
-          <h3 className={`text-xl font-semibold ${pathname !== '/' ? "text-white" : "text-white"} ml-[3%]`}><Link href={"/bids"}>Bids</Link></h3>
+          <h3 className={`text-xl font-semibold ${pathname !== '/' ? "text-white" : "text-white"} ml-[3%]`}><Link href={"/farmerDashboard"}>Bids</Link></h3>
           <h3 className={`text-xl font-semibold ${pathname !== '/' ? 'text-white' : "text-white"} ml-[3%]`}>Orders</h3>
         </div>
         <div className="w-[40%] h-[80px] mr-[130px]  flex items-center">
@@ -87,7 +87,7 @@ export default function Navbar() {
             </div>
           )}
         </div>
-      </nav>
+      </nav>:null}</>
 
   );
 }
