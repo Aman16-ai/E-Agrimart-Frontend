@@ -2,9 +2,10 @@ import { getAllProducts } from "@/service/Products";
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 
 
-export const getAllProductsThunk = createAsyncThunk("getAllProducts/getAllProducts",async(payload,thunkApi) => {
+export const getAllProductsThunk = createAsyncThunk("getAllProducts/getAllProducts",async({query,authTrue},thunkApi) => {
     try {
-        const result = await getAllProducts()
+        console.log(`${query} : query and authTrue : ${authTrue}`)
+        const result = await getAllProducts(query,authTrue)
         console.log("product thunk --------->",result)
         return result
     }

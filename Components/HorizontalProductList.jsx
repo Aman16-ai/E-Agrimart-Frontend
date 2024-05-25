@@ -13,7 +13,7 @@ export default function HorizontalProductList() {
     const products = useSelector(selectAllProductState);
 
     useEffect(() => {
-      dispatch(getAllProductsThunk())
+      dispatch(getAllProductsThunk({query:undefined,authTrue:false}))
     },[])
     return (
         <Swiper

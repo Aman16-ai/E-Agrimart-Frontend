@@ -61,3 +61,23 @@ export const getBidDashBoardData = async(query) => {
     const data = await response.json()
     return data?.Response
 }
+
+export const updateBid = async(payload,bid_id) => {
+    let url = BID_API+"/"+bid_id+"/"
+
+    const response = await fetch(url,{
+        method : "PATCH",      
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem("e-auth-token")}`,
+        },
+        body:JSON.stringify(payload)
+    })
+    if(response.status !== 200) {
+        throw new Error("Failed to fetch data")
+    }
+    const data = await response.json()
+    console.log('updatatoin data ----------> ',data)
+    return data?.Response
+}
