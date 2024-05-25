@@ -15,6 +15,7 @@ import { addBids, getAllBidsThunk, getbidDashBoardThunk, resetState, selectBidsS
 import io from "socket.io-client"
 import { disconnectSocket, initSocket } from '@/store/slices/BidSocketSlice';
 import { addBidService } from '@/service/Bid';
+import { selectUserData } from '@/store/slices/UserSlice';
 let socket = null
 
 const style = {
@@ -35,6 +36,7 @@ export default function BidModal({crop_id, farmer_id, createBid}) {
     const dashBoardData = useSelector(selectDashBoardDataState)
     const allBids = useSelector(selectBidsState)
     const open = useSelector(selectModalOpen)
+    const user = useSelector(selectUserData)
 //   const handleOpen = () => setOpen(true);
   const handleClose = () => dispatch(setOpen(false));
 
@@ -74,6 +76,7 @@ export default function BidModal({crop_id, farmer_id, createBid}) {
       // dispatch(disconnectSocket())
     }
   },[crop_id,open])
+  console.log('current user ->',user)
   React.useEffect(() => {
     console.log('dash board data ---> ',dashBoardData)
     console.log('all bids ',allBids)

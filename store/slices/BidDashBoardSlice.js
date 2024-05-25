@@ -1,4 +1,4 @@
-import { getAllBidsServices, getBidDashBoardData } from "@/service/Bid";
+import { getAllBidsServices, getBidDashBoardData, updateBid } from "@/service/Bid";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const getAllBidsThunk = createAsyncThunk(
@@ -21,6 +21,19 @@ export const getbidDashBoardThunk = createAsyncThunk(
       return result;
     } catch (err) {
       return thunkApi.rejectWithValue;
+    }
+  }
+);
+
+export const updateBidThunk = createAsyncThunk(
+  "updatebid/updatebiddashboard",
+  async ({payload,id}, thunkApi) => {
+    try {
+      console.log(`payload : ${payload.status} and id : ${id}`)
+      const result = await updateBid(payload,id);
+      return result;
+    } catch (err) {
+      return thunkApi.rejectWithValue(err.message||"Failed to update");
     }
   }
 );
@@ -105,6 +118,12 @@ export const BidDashBoardSlice = createSlice({
         state.dashboard = response
       }
     },
+    [updateBidThunk.fulfilled]:(state,action) => {
+      console.log('update bid action : ',action.payload)
+    },
+    [updateBidThunk.rejected]:(state,action) => {
+      console.log('update bid thunk error: ',action.payload)
+    }
   },
 });
 
