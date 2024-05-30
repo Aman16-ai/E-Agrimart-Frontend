@@ -11,13 +11,14 @@ import {
   selectBidsState,
   updateBidThunk,
 } from "@/store/slices/BidDashBoardSlice";
+import { CreateOrderService } from "@/service/order";
 
 export default function Overview({ crop_id, farmer_id, customer_bid_status }) {
   const currentLoggedInUser = useSelector(selectUserData);
   const bids = useSelector(selectBidsState);
   const dispatch = useDispatch();
   const checkHighestBidLocked = () => {
-    if(bids.length === 0) return true
+    if(bids.length === 0) return false
     const highestBid = bids[0].status
     return highestBid === 'Locked'
   }
@@ -34,6 +35,27 @@ export default function Overview({ crop_id, farmer_id, customer_bid_status }) {
       })
     );
   };
+  const IsCurrentUserbidLockedAndPlaceOrder = () => {
+    if(bids.length === 0) return false;
+    if(checkHighestBidLocked() && bids[0].customer.id === currentLoggedInUser.id) return true;
+    return false;
+  }
+
+  const placeOrder = async() => {
+    try {
+      if(IsCurrentUserbidLockedAndPlaceOrder()) {
+        const bid_id = bids[0].id
+        const payload = {
+          'bid_id':bid_id
+        }
+        const result = await CreateOrderService(payload)
+        alert('order placed')
+      }
+    }
+    catch(err) {
+      alert(err.toString())
+    }
+  }
   return (
     <div className="w-full h-full flex flex-col">
       <div className="w-full flex h-[85%]">
@@ -84,16 +106,19 @@ export default function Overview({ crop_id, farmer_id, customer_bid_status }) {
         </div>
       </div>
       <div className="w-full h-[15%] mt-auto ml-auto">
-        {currentLoggedInUser?.user_type !== "Farmer" ? (
+        {currentLoggedInUser?.user_type !== "Farmer" && 
+        !checkHighestBidLocked() ? 
+        (
           <BidAmountInput crop_id={crop_id} farmer_id={farmer_id} />
-        ) : (
-          <Button
+        ) : 
+        (
+          IsCurrentUserbidLockedAndPlaceOrder() ? <Button onClick={placeOrder} className="w-full font-bold h-11">Place Order</Button> : bids?.length ? <Button
             onClick={handleLockbidButton}
             className="w-full font-bold h-11"
-            disabled={checkHighestBidLocked()}
+            disabled={bids?.length && checkHighestBidLocked()}
           >
-            {checkHighestBidLocked()?"Bid Locked":"Lock Highest Bid"}
-          </Button>
+            {bids?.length && checkHighestBidLocked()?"Bid Locked":"Lock Highest Bid"}
+          </Button>:<h3 className="text-center font-semibold text-2xl">There are no bids</h3>
         )}
       </div>
     </div>
