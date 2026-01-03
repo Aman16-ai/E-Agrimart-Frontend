@@ -50,7 +50,7 @@ module.exports = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "hero-pattern": "url('/assets/hero3.jpg')",
+        "hero-pattern": "url('/assets/h.jpeg')",
         "main-logo" :"url('/assests/E-Agrimart-logos-jpeg')",
         "regiration-img":"url('/assests/r-img.png')",
         "primary" : "#FCBF49"
